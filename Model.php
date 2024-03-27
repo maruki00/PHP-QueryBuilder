@@ -2,7 +2,7 @@
 
 namespace App\Infrastructure\Kernel\DB;
 
-class Model extends Query
+class Model
 {
 
 }
