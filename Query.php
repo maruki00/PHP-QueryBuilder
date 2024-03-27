@@ -72,7 +72,7 @@ abstract class Query extends DBHandler implements IQueryBuilder
         try{
             $columns = implode(',', array_keys($attributes));
             $values  = implode(',',array_fill(0,'?', count($attributes)));
-            $sql = "INSERT INTO {static::tableName}($columns) VALUES($values)";
+            $sql = "INSERT INTO ".static::$tableName."($columns) VALUES($values)";
             $statement = self::dbConnect()->prepare($sql);
             $result =  $statement->execute(array_values($attributes));
             self::dbConnect()->commit();
@@ -87,7 +87,9 @@ abstract class Query extends DBHandler implements IQueryBuilder
     public final static function insert(array $attributes): void
     {
         $params = [];
-        sql = '';
+        $columns = implode(',', $attributes[0]);
+
+        $sql = "INSERT INTO ".static::$tableName." ($columns)";
     }
 
 

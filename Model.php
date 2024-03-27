@@ -2,7 +2,8 @@
 
 namespace App\Infrastructure\Kernel\DB;
 
-class Model
+abstract class Model extends Query
 {
-
+    public static string $tanleName = '';
+    public static array $fillable = [];
 }
