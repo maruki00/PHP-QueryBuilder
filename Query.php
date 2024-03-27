@@ -9,45 +9,82 @@
 
 namespace App\Infrastructure\Kernel\DB;
 
-class Query implements IQueryBuilder
+abstract class Query implements IQueryBuilder
 {
     private string $query;
-    private array $selects;
+    private array $columns = [];
     private array $where;
     private string $ordrby = '';
-    private string $groubBy;
-    private string $limit;
+    private string $groubBy='';
+    private string $limit='';
 
-    private string $having;
-    private array $bindingParams;
+    private  array $join = [];
+    private string $groupBy = '';
+    private array $bindingParams = [];
 
     public static function query(): IQueryBuilder
     {
-        return new self();
+        return new static;
     }
 
-    public function selectRaw(string $sql, array $params = []): IQueryBuilder
+    public final function selectRaw(string $sql, array $params = []): IQueryBuilder
     {
-        // TODO: Implement selectRaw() method.
+
+        return $this;
     }
 
-    public function whereBetween(...$params): IQueryBuilder
+    public final function whereBetween(...$params): IQueryBuilder
     {
-        // TODO: Implement whereBetween() method.
+        return $this;
     }
 
-    public function where(...$params): IQueryBuilder
+    public final function where(...$params): IQueryBuilder
     {
-        // TODO: Implement where() method.
+        return $this;
     }
 
-    public function save(array $attributes): void
+    public final function create(array $attributes): void
     {
-        // TODO: Implement save() method.
+//        $columns =
     }
 
     public static function insert(array $attributes): void
     {
-        // TODO: Implement insert() method.
+
+    }
+
+    public final function andWhere(string $column, string $operator, mixed $value): IQueryBuilder
+    {
+        return $this;
+    }
+
+    public final function orWhere(string $column, string $operator, mixed $value): IQueryBuilder
+    {
+        return $this;
+    }
+
+    public final function whereMany(array $condition): IQueryBuilder
+    {
+        return $this;
+    }
+
+    public final function get(): mixed
+    {
+        return $this;
+    }
+
+    public final function first(): mixed
+    {
+        return $this;
+    }
+
+    public final function orderBy(string $orderByColumn, string $sort = 'asc'): IQueryBuilder
+    {
+        return $this;
+    }
+
+    public function join(string $table1, string $table2, string $column1, string $column2, string $operation, string $type = 'inner'): IQueryBuilder
+    {
+        // TODO: Implement join() method.
     }
 }
