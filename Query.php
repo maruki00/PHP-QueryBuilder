@@ -13,14 +13,14 @@ abstract class Query implements IQueryBuilder
 {
     private string $query;
     private array $columns = [];
-    private array $where;
+    private array $where = ["WHERE"];
     private string $ordrby = '';
     private string $groubBy='';
     private string $limit='';
 
     private  array $join = [];
     private string $groupBy = '';
-    private array $bindingParams = [];
+    private array $bindingParams=[];
 
     public static function query(): IQueryBuilder
     {
@@ -29,44 +29,50 @@ abstract class Query implements IQueryBuilder
 
     public final function selectRaw(string $sql, array $params = []): IQueryBuilder
     {
-
+        $this->columns[]=$sql;
+        $this->bindingParams[] = $params;
         return $this;
     }
 
-    public final function whereBetween(...$params): IQueryBuilder
+    public final function whereBetween(string $column, string $operator, mixed $value): IQueryBuilder
     {
+        $this->where []= "$column $operator ?";
+        $this->bindingParams[]=$value;
         return $this;
     }
 
-    public final function where(...$params): IQueryBuilder
+    public final function where(string $column, string $operator, mixed $value): IQueryBuilder
     {
+        $this->where []= "$column $operator ?";
+        $this->bindingParams[]=$value;
         return $this;
-    }
-
-    public final function create(array $attributes): void
-    {
-//        $columns =
-    }
-
-    public static function insert(array $attributes): void
-    {
-
     }
 
     public final function andWhere(string $column, string $operator, mixed $value): IQueryBuilder
     {
+        $this->where []= " and $column $operator ?";
+        $this->bindingParams[]=$value;
         return $this;
     }
 
     public final function orWhere(string $column, string $operator, mixed $value): IQueryBuilder
     {
+        $this->where []= " or $column $operator ?";
+        $this->bindingParams[]=$value;
         return $this;
     }
 
-    public final function whereMany(array $condition): IQueryBuilder
+    public final static function create(array $attributes): void
     {
-        return $this;
+        $sql =
     }
+
+    public final static function insert(array $attributes): void
+    {
+
+    }
+
+
 
     public final function get(): mixed
     {
