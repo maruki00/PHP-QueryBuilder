@@ -111,8 +111,7 @@ abstract class Query extends DBHandler implements IQueryBuilder
 
     public final function get(): mixed
     {
-        $this->query = "SELECT ".implode(',', $this->columns)." FROM ". static::$tableName;
-        $where = implode('and' , $this->where);
+        $this->query = "SELECT ".implode(',', $this->columns)." FROM ". static::$tableName . ' ' . implode('and ' , $this->where);
         return $this;
     }
 
