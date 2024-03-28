@@ -2,7 +2,7 @@
 
 /*
  *
- *
+ *  Author: Abdellah Oulahyane
  *
  */
 
@@ -13,19 +13,18 @@ abstract class Query extends DBHandler implements IQueryBuilder
 {
     private string $table;
     private string $query;
-    private array $columns = [];
-    private array $where = ["WHERE"];
+    private array $columns = ['*'];
+    private array $where = ["WHERE "];
     private string $ordrby = '';
     private string $groubBy='';
     private string $limit='';
-
     private  array $join = [];
     private string $groupBy = '';
     private array $bindingParams=[];
 
     public static function query(): IQueryBuilder
     {
-        return new static;
+        return  new static;
     }
 
     public final function selectRaw(string $sql, array $params = []): IQueryBuilder
@@ -113,6 +112,8 @@ abstract class Query extends DBHandler implements IQueryBuilder
 
     public final function get(): mixed
     {
+        $this->query = "SELECT ".implode(',', $this->columns)." FROM ". static::$tableName;
+        $where = implode('and' , $this->where);
         return $this;
     }
 
