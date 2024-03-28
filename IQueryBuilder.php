@@ -11,7 +11,7 @@ interface IQueryBuilder
     public function andWhere(string $column, string $operator, mixed $value):IQueryBuilder;
     public function orWhere(string $column, string $operator, mixed $value):IQueryBuilder;
     public function whereMany(array $condition):IQueryBuilder;
-    public static function insert(array $attributes): void;
+    public static function insert(array $attributes): bool;
     public function get(): mixed;
     public function first(): mixed;
     public function orderBy(string $orderByColumn, string $sort='asc'): IQueryBuilder;

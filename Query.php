@@ -77,19 +77,36 @@ abstract class Query extends DBHandler implements IQueryBuilder
             $result =  $statement->execute(array_values($attributes));
             self::dbConnect()->commit();
             return $result;
-        }catch (\PDOException){
-            self::dbConnect()->rollBack();
-            return false;
-        }
-
+        }catch (\PDOException){}
+        self::dbConnect()->rollBack();
+        return false;
     }
 
-    public final static function insert(array $attributes): void
+    /**
+     * @throws \Exception
+     */
+    public final static function insert(array $attributes): bool
     {
-        $params = [];
-        $columns = implode(',', $attributes[0]);
+        self::dbConnect()->beginTransaction();
+        try{
+            $params = [];
+            $columns = implode(',', $attributes[0]);
+            $sqlBind = array_map(function($att) use(&$params){
+                $values = implode(',',array_fill(0,'?', count($att)));
+                $params[]=array_values($att);
+                return "($values)";
+            }, $attributes);
+            $binds = implode(', ', $sqlBind);
+            $sql = "INSERT INTO ".static::$tableName." ($columns) VALUES ($binds)";
+            $statement = self::dbConnect()->prepare($sql);
+            $statement->execute($params);
+            self::dbConnect()->commit();
+            return true;
+        }
+        catch (\PDOException){}
+        self::dbConnect()->rollBack();
+        return false;
 
-        $sql = "INSERT INTO ".static::$tableName." ($columns)";
     }
 
 
