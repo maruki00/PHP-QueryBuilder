@@ -1,5 +1,13 @@
 <?php
 
+/*
+ *
+ *  Author: Abdellah Oulahyane
+ *
+ */
+
+
+
 namespace App\Infrastructure\Kernel\DB;
 
 interface IQueryBuilder

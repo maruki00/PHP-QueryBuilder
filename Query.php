@@ -6,7 +6,6 @@
  *
  */
 
-
 namespace App\Infrastructure\Kernel\DB;
 
 abstract class Query extends DBHandler implements IQueryBuilder
@@ -134,7 +133,6 @@ abstract class Query extends DBHandler implements IQueryBuilder
 
     public function whereMany(array $condition):IQueryBuilder
     {
-
         return $this;
     }
 }

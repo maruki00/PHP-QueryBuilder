@@ -1,5 +1,11 @@
 <?php
 
+/*
+ *
+ *  Author: Abdellah Oulahyane
+ *
+ */
+
 namespace App\Infrastructure\Kernel\DB;
 
 abstract class DBHandler
