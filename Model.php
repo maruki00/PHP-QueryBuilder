@@ -1,16 +1,12 @@
 <?php
 
 /*
- *
  *  Author: Abdellah Oulahyane
- *
  */
-
-
-namespace App\Infrastructure\Kernel\DB;
+namespace QueryBuilder;
 
 abstract class Model extends Query
 {
-    public static string $tanleName = '';
-    public static array $fillable = [];
+    protected static string $tanleName = '';
+    protected static array $fillable = [];
 }

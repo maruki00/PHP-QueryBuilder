@@ -1,14 +1,11 @@
 <?php
 
 /*
- *
  *  Author: Abdellah Oulahyane
- *
  */
+namespace QueryBuilder;
 
-namespace App\Infrastructure\Kernel\DB;
-
-abstract class Query extends DBHandler implements IQueryBuilder
+class Query extends DBHandler implements IQueryBuilder
 {
     private string $table;
     private string $query;
@@ -21,9 +18,10 @@ abstract class Query extends DBHandler implements IQueryBuilder
     private string $groupBy = '';
     private array $bindingParams=[];
 
-    public static function query(): IQueryBuilder
+
+    public static function __callStatic(string $name, array $arguments)
     {
-        return  new static;
+        return  (new self())->{$name}($arguments);
     }
 
     public final function selectRaw(string $sql, array $params = []): IQueryBuilder
