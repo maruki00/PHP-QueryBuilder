@@ -1,0 +1,14 @@
+{
+    "name": "ouldeveloper/querybuilder",
+    "autoload": {
+        "psr-4": {
+            "Querybuilder\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Abdellah Oulahyane"
+        }
+    ],
+    "require": {}
+}

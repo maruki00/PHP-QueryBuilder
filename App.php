@@ -2,6 +2,8 @@
 
 namespace QueryBuilder;
 
+use src\Model;
+
 class App extends Model
 {
     protected static string $tableName = 'test';

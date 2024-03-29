@@ -1,11 +1,7 @@
 
 <?php
 
-require_once './DBHandler.php';
-require_once './IQueryBuilder.php';
-require_once './Model.php';
-require_once './Query.php';
-require_once './App.php';
+require_once 'vendor/autoload.php';
 
 
 
@@ -14,6 +10,6 @@ require_once './App.php';
 
 
 QueryBuilder\App::create([
-    'name'=> '1234',
-    'id' => 'sdfs'
+    'name' => '1234',
+    'id'   => 'sdfs',
 ]);
