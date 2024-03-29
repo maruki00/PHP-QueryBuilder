@@ -7,7 +7,6 @@ namespace QueryBuilder;
 
 interface IQueryBuilder
 {
-    public static function query():IQueryBuilder;
     public function selectRaw(string $sql, array $params = []):IQueryBuilder;
     public function whereBetween(string $column, string $operator, mixed $value): IQueryBuilder;
     public function where(string $column, string $operator, mixed $value):IQueryBuilder;

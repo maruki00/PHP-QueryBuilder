@@ -9,20 +9,48 @@ class Query extends DBHandler implements IQueryBuilder
 {
     private string $table;
     private string $query;
-    private array $columns = ['*'];
-    private array $where = ["WHERE "];
-    private string $ordrby = '';
-    private string $groubBy='';
-    private string $limit='';
-    private  array $join = [];
-    private string $groupBy = '';
-    private array $bindingParams=[];
+    private array $columns       = ['*'];
+    private array $where         = [" WHERE "];
+    private string $ordrby       = '';
+    private string $groubBy      = '';
+    private string $limit        = '';
+    private  array $join         = [];
+    private string $groupBy      = '';
+    private array $bindingParams = [];
 
 
-    public static function __callStatic(string $name, array $arguments)
+    public final static function query():IQueryBuilder
     {
-        return  (new self())->{$name}($arguments);
+        return new self();
     }
+
+    /**
+     * @throws \Exception
+     */
+    public final static function create(array $attributes): bool
+    {
+        self::dbConnect()->beginTransaction();
+        try{
+            $columns = implode(',', array_keys($attributes));
+            $values  = implode(',',array_fill(0, count($attributes), '?'));
+            $sql = "INSERT INTO ".static::$tableName."($columns) VALUES($values)";
+            $statement = self::dbConnect()->prepare($sql);
+            $result =  $statement->execute(array_values($attributes));
+            self::dbConnect()->commit();
+            return $result;
+        }catch (\PDOException){}
+        self::dbConnect()->rollBack();
+        throw new \Exception('Invalid Data');
+        return false;
+    }
+
+
+
+
+
+
+
+
 
     public final function selectRaw(string $sql, array $params = []): IQueryBuilder
     {
@@ -40,6 +68,7 @@ class Query extends DBHandler implements IQueryBuilder
 
     public final function where(string $column, string $operator, mixed $value): IQueryBuilder
     {
+        die($column);
         $this->where []= "$column $operator ?";
         $this->bindingParams[]=$value;
         return $this;
@@ -57,25 +86,6 @@ class Query extends DBHandler implements IQueryBuilder
         $this->where []= " or $column $operator ?";
         $this->bindingParams[]=$value;
         return $this;
-    }
-
-    /**
-     * @throws \Exception
-     */
-    public final static function create(array $attributes): bool
-    {
-        self::dbConnect()->beginTransaction();
-        try{
-            $columns = implode(',', array_keys($attributes));
-            $values  = implode(',',array_fill(0,'?', count($attributes)));
-            $sql = "INSERT INTO ".static::$tableName."($columns) VALUES($values)";
-            $statement = self::dbConnect()->prepare($sql);
-            $result =  $statement->execute(array_values($attributes));
-            self::dbConnect()->commit();
-            return $result;
-        }catch (\PDOException){}
-        self::dbConnect()->rollBack();
-        return false;
     }
 
     /**
